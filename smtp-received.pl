@@ -44,11 +44,14 @@ while (<>) {
 	chomp;
 	unless (/./) {
 		# endof headers
-		exit(0);
+		last;
 	}
 	unless (/^\s/) {
+		# current line is not a continuation
 		do_line($line) if $line;
 		$line = '';
 	}
 	$line .= $_;
 }
+do_line($line) if $line;
+exit(0);
